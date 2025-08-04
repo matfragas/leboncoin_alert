@@ -63,8 +63,8 @@ def main():
     print("🚀 Démarrage du script LeBonCoin → Notion")
 
     if not test_scrapfly_key():
-    print("🛑 Arrêt du script : clé Scrapfly invalide.")
-    return
+        print("🛑 Arrêt du script : clé Scrapfly invalide.")
+        return
 
     with open("config.yaml", "r") as f:
         config = yaml.safe_load(f)
