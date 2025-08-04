@@ -1,4 +1,4 @@
-name: Cron Scrapfly LeBonCoin
+name: Cron LeBonCoin
 
 on:
   schedule:
