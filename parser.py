@@ -4,13 +4,15 @@ import os
 
 SCRAPFLY_KEY = os.getenv("SCRAPFLY_API_KEY")
 
-if not SCRAPFLY_KEY:
-    print("🔴 Clé API Scrapfly manquante dans l'environnement !")
-    return []
-else:
-    print(f"🔑 Clé Scrapfly détectée (masquée): {SCRAPFLY_KEY[:6]}...***")
 
 def fetch_ads(url):
+    
+    if not SCRAPFLY_KEY:
+        print("🔴 Clé API Scrapfly manquante dans l'environnement !")
+        return []
+    else:
+        print(f"🔑 Clé Scrapfly détectée (masquée): {SCRAPFLY_KEY[:6]}...***")
+    
     print(f"🔍 Scrapfly scraping : {url}")
 
     api_url = "https://api.scrapfly.io/scrape"
