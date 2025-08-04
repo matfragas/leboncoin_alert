@@ -1,49 +1,41 @@
-import undetected_chromedriver as uc
-from bs4 import BeautifulSoup
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+import requests
 
 def fetch_ads(url):
-    print(f"🌐 Ouverture de la page : {url}")
-    options = uc.ChromeOptions()
-    options.add_argument("--headless=new")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-
-    driver = uc.Chrome(options=options)
-    driver.get(url)
-
+    print(f"🌐 Récupération JSON depuis : {url}")
     try:
-        # On attend que les cartes d'annonces apparaissent
-        WebDriverWait(driver, 15).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, 'a[data-qa-id="aditem_container"]'))
-        )
-        print("✅ Annonces détectées sur la page.")
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+        }
+
+        # Transforme une URL classique en URL API JSON
+        if "/recherche/" in url:
+            url = url.replace("www.leboncoin.fr/recherche", "api.leboncoin.fr/finder/search")
+            url = url.replace("?", "?limit=35&")  # limite à 35 résultats max (peut augmenter)
+
+        res = requests.get(url, headers=headers)
+        if res.status_code != 200:
+            print(f"🔴 Statut HTTP {res.status_code} pour l'URL {url}")
+            return []
+
+        data = res.json()
+        if "ads" not in data:
+            print("🔴 Réponse JSON invalide ou pas d’annonces")
+            return []
+
+        ads = []
+        for ad in data["ads"]:
+            try:
+                ads.append({
+                    "title": ad.get("subject", "Sans titre"),
+                    "price": f"{ad.get('price', 0)} €",
+                    "url": "https://www.leboncoin.fr" + ad.get("url", "")
+                })
+            except Exception as e:
+                print(f"🔴 Erreur parsing annonce JSON : {e}")
+
+        print(f"✅ {len(ads)} annonces trouvées.")
+        return ads
 
     except Exception as e:
-        print(f"🔴 Aucune annonce détectée après attente : {e}")
-        driver.quit()
+        print(f"🔴 Exception lors de l'appel API : {e}")
         return []
-
-    soup = BeautifulSoup(driver.page_source, 'html.parser')
-    driver.quit()
-
-    ads = []
-    cards = soup.select('a[data-qa-id="aditem_container"]')
-    print(f"🔎 {len(cards)} cartes détectées (annonces brutes)")
-
-    for card in cards:
-        try:
-            title = card.select_one('[data-qa-id="aditem_title"]').text.strip()
-            price = card.select_one('[data-qa-id="aditem_price"]').text.strip()
-            link = "https://www.leboncoin.fr" + card["href"]
-            ads.append({
-                "title": title,
-                "price": price,
-                "url": link
-            })
-        except Exception as e:
-            print(f"🔴 Erreur lecture annonce : {e}")
-
-    return ads
