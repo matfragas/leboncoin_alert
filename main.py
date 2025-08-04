@@ -1,7 +1,7 @@
 import os
 import json
 import yaml
-from parser import fetch_ads_mobile_api
+from parser import fetch_ads
 from notion_api import send_to_notion
 
 SEEN_PATH = "data/seen_ads.json"
@@ -31,7 +31,7 @@ def save_seen_ads(seen):
 
 def main():
     print("🚀 Démarrage du script LeBonCoin → Notion")
-    
+
     with open("config.yaml", "r") as f:
         config = yaml.safe_load(f)
 
@@ -41,13 +41,7 @@ def main():
     for search in config["searches"]:
         print(f"\n🔍 Recherche : {search['name']}")
         try:
-            ads = fetch_ads_mobile_api(
-                category_id=search["category_id"],
-                location_code=search["zipcode"],
-                price_min=search.get("price_min", 0),
-                price_max=search.get("price_max", 999999),
-                keywords=search.get("keywords", "")
-            )
+            ads = fetch_ads(search["url"])
             print(f"➡️ {len(ads)} annonces trouvées")
 
             for ad in ads:
@@ -58,7 +52,7 @@ def main():
                 else:
                     print(f"⏩ Déjà vue : {ad['title']}")
         except Exception as e:
-            print(f"🔴 Erreur lors de la recherche : {e}")
+            print(f"🔴 Erreur dans la recherche : {e}")
 
     save_seen_ads(new_seen)
     print("🏁 Fin du script.\n")
