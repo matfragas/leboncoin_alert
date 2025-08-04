@@ -1,5 +1,12 @@
 searches:
-  - name: Maison/Terrain - Laval/Changé/Louverné/StBerth/Huisserie - 340M€ max
-    url: "https://www.leboncoin.fr/recherche?category=9&locations=Louvern%C3%A9_53950__48.12273_-0.72003_5000,L%27Huisserie_53970__48.02281_-0.77001_5000,Saint-Berthevin_53940__48.06967_-0.83152_5000,Chang%C3%A9_53810__48.09901_-0.78975_5000,Laval_53000__48.07268_-0.77307_5000&price=min-340000&square=85-max&real_estate_type=1,3&immo_sell_type=old,new"
-  - name: Armoire Dressing Alentours LAVAL <250€
-    url: "https://www.leboncoin.fr/recherche?category=19&locations=Laval_53000__48.07268_-0.77307_5000_20000&price=min-250&furniture_type=armoire,dressingetpenderie"
+  - name: Armoire Laval
+    category_id: 19
+    zipcode: "53000"
+    price_max: 250
+    keywords: "armoire"
+    
+  - name: Dressing Paris
+    category_id: 19
+    zipcode: "53000"
+    price_max: 250
+    keywords: "dressing"
