@@ -9,14 +9,19 @@ def fetch_ads(url):
 
     api_url = "https://api.scrapfly.io/scrape"
     params = {
-        "key": SCRAPFLY_KEY,
         "url": url,
-        "render_js": True,
+        "render_js": "true",  # ATTENTION : doit être "true" en string
         "wait_for_selector": 'a[data-qa-id="aditem_container"]'
     }
 
+    headers = {
+        "Content-Type": "application/json",
+        "X-API-KEY": SCRAPFLY_KEY
+    }
+
     try:
-        response = requests.get(api_url, params=params)
+        response = requests.get(api_url, headers=headers, params=params)
+
         if response.status_code != 200:
             print(f"🔴 Erreur Scrapfly : {response.status_code} - {response.text}")
             return []
