@@ -1,9 +1,9 @@
 import smtplib
 from email.mime.text import MIMEText
 
-EMAIL_SENDER = "ton@email.com"
-EMAIL_PASSWORD = "motdepasse"
-EMAIL_RECEIVER = "destinataire@email.com"
+EMAIL_SENDER = "franck.gasseau@email.com"
+EMAIL_PASSWORD = "6cT7@#@in8oZ&a"
+EMAIL_RECEIVER = "franck.gasseau@email.com"
 
 def send_alert(ad, category):
     msg = MIMEText(f"NOUVELLE ANNONCE [{category}]\n\n{ad['title']}\n{ad['price']}\n{ad['url']}")
