@@ -1,41 +1,47 @@
 import requests
 
-def fetch_ads(url):
-    print(f"🌐 Récupération JSON depuis : {url}")
+def fetch_ads_mobile_api(category_id=19, location_code="53000", price_min=0, price_max=10000, keywords="armoire"):
+    url = "https://api.leboncoin.fr/finder/search"
+    params = {
+        "filters": {
+            "category": category_id,
+            "locations": [{"zipcode": location_code}],
+            "price": {"min": price_min, "max": price_max},
+            "keywords": keywords
+        },
+        "limit": 30,
+        "limit_alu": 3,
+        "owner_type": "all",
+        "sort_by": "time",
+        "sort_order": "desc"
+    }
+
+    headers = {
+        "User-Agent": "LBC/1.0 (Android)",
+        "Content-Type": "application/json"
+    }
+
     try:
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
-        }
+        print(f"📡 Appel API mobile pour '{keywords}' à {location_code}")
+        res = requests.post(url, json=params, headers=headers)
 
-        # Transforme une URL classique en URL API JSON
-        if "/recherche/" in url:
-            url = url.replace("www.leboncoin.fr/recherche", "api.leboncoin.fr/finder/search")
-            url = url.replace("?", "?limit=35&")  # limite à 35 résultats max (peut augmenter)
-
-        res = requests.get(url, headers=headers)
         if res.status_code != 200:
-            print(f"🔴 Statut HTTP {res.status_code} pour l'URL {url}")
+            print(f"🔴 Statut HTTP {res.status_code}")
             return []
 
         data = res.json()
-        if "ads" not in data:
-            print("🔴 Réponse JSON invalide ou pas d’annonces")
-            return []
-
         ads = []
-        for ad in data["ads"]:
-            try:
-                ads.append({
-                    "title": ad.get("subject", "Sans titre"),
-                    "price": f"{ad.get('price', 0)} €",
-                    "url": "https://www.leboncoin.fr" + ad.get("url", "")
-                })
-            except Exception as e:
-                print(f"🔴 Erreur parsing annonce JSON : {e}")
+
+        for ad in data.get("ads", []):
+            ads.append({
+                "title": ad.get("subject", "Sans titre"),
+                "price": f"{ad.get('price', 0)} €",
+                "url": "https://www.leboncoin.fr" + ad.get("url", "")
+            })
 
         print(f"✅ {len(ads)} annonces trouvées.")
         return ads
 
     except Exception as e:
-        print(f"🔴 Exception lors de l'appel API : {e}")
+        print(f"🔴 Erreur API : {e}")
         return []
