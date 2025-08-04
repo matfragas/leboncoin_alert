@@ -2,11 +2,13 @@ searches:
   - name: Armoire Laval
     category_id: 19
     zipcode: "53000"
+    price_min: 0
     price_max: 250
     keywords: "armoire"
     
   - name: Dressing Paris
     category_id: 19
     zipcode: "53000"
+    price_min: 0
     price_max: 250
     keywords: "dressing"
