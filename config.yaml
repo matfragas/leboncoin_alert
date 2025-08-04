@@ -1,14 +1,3 @@
 searches:
   - name: Armoire Laval
-    category_id: 19
-    zipcode: "53000"
-    price_min: 0
-    price_max: 250
-    keywords: "armoire"
-    
-  - name: Dressing Paris
-    category_id: 19
-    zipcode: "53000"
-    price_min: 0
-    price_max: 250
-    keywords: "dressing"
+    url: "https://www.leboncoin.fr/recherche?category=19&locations=Laval_53000__48.07268_-0.77307_5000_20000&price=min-250&furniture_type=armoire,dressingetpenderie"
