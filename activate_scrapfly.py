@@ -1,6 +1,6 @@
 import requests
 
-SCRAPFLY_KEY = os.getenv("SCRAPFLY_API_KEY")  # Remplace par ta clé
+SCRAPFLY_KEY = "scp-live-69f48ed54ff0440398714a7095f09269"  # Remplace par ta clé
 
 url = "https://api.scrapfly.io/scrape"
 params = {
