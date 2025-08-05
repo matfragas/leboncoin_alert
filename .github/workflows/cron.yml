@@ -27,4 +27,5 @@ jobs:
           SCRAPFLY_API_KEY: ${{ secrets.SCRAPFLY_API_KEY }}
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
-        run: python main.py
+        #run: python main.py
+        run: test_scrapfly_key.py
