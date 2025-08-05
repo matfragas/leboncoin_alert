@@ -1,8 +1,8 @@
 import requests
 import os
 
-SCRAPFLY_KEY = os.getenv("SCRAPFLY_API_KEY")
-
+#SCRAPFLY_KEY = os.getenv("SCRAPFLY_API_KEY")
+SCRAPFLY_KEY = "scp-live-69f48ed54ff0440398714a7095f09269"
 def test_scrapfly_key():
     print("🔍 Test de la clé Scrapfly...")
 
